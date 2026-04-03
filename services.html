@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blendo Agency — Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--blue:#364CFF;--blue-light:#5A6FFF;
+--black:#0a0a0a;--dark:#1a1a1a;
+--gray:#6b6b6b;--gray-light:#a0a0a0;
+--gray-border:#e5e5e5;--gray-bg:#f7f7f7;
+--white:#ffffff;--green:#06D6A0;--coral:#FF6B6B;
+--font-display:'Plus Jakarta Sans',sans-serif;
+--font-body:'DM Sans',sans-serif;
+--font-mono:'Space Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--black);background:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.8rem 3rem;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s}
+.navbar.scrolled{padding:1rem 3rem;background:rgba(255,255,255,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--gray-border)}
+.logo{font-family:var(--font-display);font-weight:800;font-size:1.4rem;color:var(--black);letter-spacing:-0.5px;text-decoration:none;z-index:301}
+.logo span{color:var(--blue)}
+.logo.menu-open{color:var(--white)}
+.logo.menu-open span{color:var(--blue-light)}
+.hamburger{width:36px;height:24px;position:relative;cursor:pointer;z-index:301;display:flex;flex-direction:column;justify-content:space-between}
+.hamburger .line{display:block;width:100%;height:2px;background:var(--black);transition:all 0.4s cubic-bezier(0.68,-0.6,0.32,1.6);transform-origin:center}
+.hamburger.open .line{background:var(--white)}
+.hamburger.open .line:nth-child(1){transform:translateY(11px) rotate(45deg)}
+.hamburger.open .line:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open .line:nth-child(3){transform:translateY(-11px) rotate(-45deg)}
+.menu-overlay{position:fixed;inset:0;z-index:300;background:var(--black);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.5s ease}
+.menu-overlay.open{opacity:1;pointer-events:all}
+.menu-content{text-align:left;max-width:800px;width:100%;padding:3rem}
+.menu-links{list-style:none;margin-bottom:3rem}
+.menu-links li{overflow:hidden}
+.menu-links a{font-family:var(--font-display);font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;color:var(--white);text-decoration:none;letter-spacing:-2px;line-height:1.3;display:block;transform:translateY(100%);transition:transform 0.5s cubic-bezier(0.16,1,0.3,1),color 0.3s}
+.menu-overlay.open .menu-links a{transform:translateY(0)}
+.menu-links li:nth-child(1) a{transition-delay:0.1s}
+.menu-links li:nth-child(2) a{transition-delay:0.15s}
+.menu-links li:nth-child(3) a{transition-delay:0.2s}
+.menu-links li:nth-child(4) a{transition-delay:0.25s}
+.menu-links li:nth-child(5) a{transition-delay:0.3s}
+.menu-links a:hover{color:var(--blue)}
+.menu-links a .num{font-family:var(--font-mono);font-size:0.8rem;color:var(--gray);vertical-align:super;margin-right:0.8rem;font-weight:400;letter-spacing:0}
+.menu-footer{display:flex;gap:4rem;opacity:0;transform:translateY(20px);transition:all 0.5s ease 0.35s}
+.menu-overlay.open .menu-footer{opacity:1;transform:translateY(0)}
+.menu-footer-col h4{font-family:var(--font-display);font-size:0.85rem;font-weight:700;color:var(--white);margin-bottom:0.6rem}
+.menu-footer-col p,.menu-footer-col a{font-size:0.85rem;color:var(--gray);text-decoration:none;line-height:1.8;display:block}
+.menu-footer-col a:hover{color:var(--white)}
+
+/* PAGE HERO */
+.page-hero{padding:10rem 3rem 5rem;max-width:1100px;margin:0 auto}
+.page-hero .section-label{font-family:var(--font-mono);font-size:0.75rem;color:var(--gray-light);text-transform:uppercase;letter-spacing:3px;margin-bottom:1.5rem}
+.page-hero h1{font-family:var(--font-display);font-size:clamp(2.8rem,5.5vw,4.5rem);font-weight:800;line-height:1.08;letter-spacing:-2.5px;color:var(--black);margin-bottom:2rem;max-width:800px}
+.page-hero p{font-size:1.2rem;color:var(--gray);line-height:1.7;max-width:580px}
+
+/* SERVICES INTRO STRIP */
+.services-intro{padding:0 3rem 4rem;max-width:1100px;margin:0 auto}
+.services-intro-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.si-card{padding:1.5rem 0;border-top:2px solid var(--gray-border);transition:border-color 0.3s;cursor:pointer}
+.si-card:hover{border-color:var(--blue)}
+.si-card .si-num{font-family:var(--font-mono);font-size:0.7rem;color:var(--gray-light);margin-bottom:0.6rem}
+.si-card h3{font-family:var(--font-display);font-size:1.1rem;font-weight:700;letter-spacing:-0.3px;margin-bottom:0.4rem;transition:color 0.3s}
+.si-card:hover h3{color:var(--blue)}
+.si-card p{font-size:0.85rem;color:var(--gray);line-height:1.6}
+
+/* ACCORDION SERVICES */
+.services-section{padding:0 3rem 6rem;max-width:1100px;margin:0 auto}
+.accordion-item{border-top:1px solid var(--gray-border)}
+.accordion-item:last-child{border-bottom:1px solid var(--gray-border)}
+
+.accordion-header{display:grid;grid-template-columns:60px 1fr auto;gap:2rem;align-items:center;padding:2.5rem 0;cursor:pointer;transition:all 0.3s;user-select:none}
+.accordion-header:hover{padding-left:1rem}
+.accordion-header:hover .acc-title{color:var(--blue)}
+.acc-num{font-family:var(--font-mono);font-size:0.8rem;color:var(--gray-light)}
+.acc-title{font-family:var(--font-display);font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:800;letter-spacing:-0.8px;transition:color 0.3s}
+.acc-toggle{width:40px;height:40px;border-radius:50%;border:1px solid var(--gray-border);display:flex;align-items:center;justify-content:center;transition:all 0.4s;flex-shrink:0}
+.acc-toggle svg{width:14px;height:14px;stroke:var(--gray);stroke-width:2;fill:none;transition:all 0.4s}
+.accordion-item.open .acc-toggle{background:var(--blue);border-color:var(--blue);transform:rotate(45deg)}
+.accordion-item.open .acc-toggle svg{stroke:var(--white)}
+
+.accordion-body{max-height:0;overflow:hidden;transition:max-height 0.6s cubic-bezier(0.16,1,0.3,1)}
+.accordion-body-inner{padding:0 0 3rem 80px}
+
+.acc-intro{font-size:1.1rem;color:var(--gray);line-height:1.8;max-width:620px;margin-bottom:2.5rem}
+
+.acc-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:2.5rem}
+.acc-col h4{font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:1rem;letter-spacing:-0.2px}
+.acc-list{list-style:none;display:flex;flex-direction:column;gap:0.6rem}
+.acc-list li{font-size:0.92rem;color:var(--dark);line-height:1.5;padding-left:1.2rem;position:relative}
+.acc-list li::before{content:'';position:absolute;left:0;top:0.55rem;width:5px;height:5px;border-radius:50%;background:var(--blue);opacity:0.4}
+
+.acc-platforms{display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:2rem}
+.platform-tag{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.5px;padding:0.4rem 0.9rem;border:1px solid var(--gray-border);border-radius:20px;color:var(--dark);transition:all 0.3s}
+.platform-tag:hover{border-color:var(--blue);color:var(--blue)}
+
+.acc-proof{background:var(--gray-bg);border-radius:8px;padding:1.8rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center}
+.acc-proof-text{font-size:0.95rem;color:var(--dark);line-height:1.6}
+.acc-proof-text strong{color:var(--black)}
+.acc-proof-stats{display:flex;gap:2rem}
+.acc-proof-stat .val{font-family:var(--font-mono);font-size:1.3rem;font-weight:700;color:var(--blue)}
+.acc-proof-stat .lbl{font-size:0.7rem;color:var(--gray);margin-top:0.1rem}
+
+.acc-cta{display:inline-flex;align-items:center;gap:0.5rem;color:var(--blue);font-weight:600;font-size:0.95rem;text-decoration:none;border-bottom:2px solid var(--blue);padding-bottom:0.2rem;transition:gap 0.3s;margin-top:1.5rem}
+.acc-cta:hover{gap:0.8rem}
+
+/* BOTTOM CTA */
+.page-cta{background:var(--black);padding:6rem 3rem;text-align:center;position:relative;overflow:hidden}
+.page-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(54,76,255,0.1),transparent 70%);pointer-events:none}
+.page-cta h2{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:800;color:var(--white);letter-spacing:-1.5px;margin-bottom:1.2rem}
+.page-cta p{font-size:1.1rem;color:var(--gray);max-width:480px;margin:0 auto 2.5rem;line-height:1.7}
+.cta-link{display:inline-flex;align-items:center;gap:0.6rem;color:var(--blue);font-weight:600;font-size:1.1rem;text-decoration:none;border-bottom:2px solid var(--blue);padding-bottom:0.3rem;transition:gap 0.3s}
+.cta-link:hover{gap:1rem}
+
+/* FOOTER */
+footer{padding:2.5rem 3rem;border-top:1px solid rgba(255,255,255,0.06);background:var(--black)}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.footer-logo{font-family:var(--font-display);font-weight:800;font-size:1.1rem;color:var(--white)}
+.footer-logo span{color:var(--blue)}
+footer p{font-size:0.78rem;color:var(--gray)}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{font-size:0.78rem;color:var(--gray);text-decoration:none;transition:color 0.2s}
+.footer-links a:hover{color:var(--white)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .navbar{padding:1.2rem 1.5rem}
+  .page-hero,.services-intro,.services-section{padding-left:1.5rem;padding-right:1.5rem}
+  .services-intro-grid{grid-template-columns:1fr 1fr;gap:1rem}
+  .accordion-header{grid-template-columns:40px 1fr auto;gap:1rem}
+  .accordion-body-inner{padding-left:0}
+  .acc-grid{grid-template-columns:1fr}
+  .acc-proof{grid-template-columns:1fr;gap:1rem}
+  .acc-proof-stats{justify-content:flex-start}
+  .menu-content{padding:1.5rem}
+  .menu-footer{flex-direction:column;gap:2rem}
+}
+@media(max-width:600px){
+  .services-intro-grid{grid-template-columns:1fr}
+  .accordion-header{grid-template-columns:1fr auto;gap:1rem}
+  .acc-num{display:none}
+  .page-cta{padding:4rem 1.5rem}
+}
+
+.mockup-badge{position:fixed;bottom:1rem;right:1rem;background:var(--black);color:var(--white);font-family:var(--font-mono);font-size:0.6rem;padding:0.4rem 0.8rem;border-radius:4px;z-index:400;letter-spacing:1px;opacity:0.5}
+</style>
+</head>
+<body>
+
+<div class="mockup-badge">SERVICES MOCKUP v1</div>
+
+<!-- NAV -->
+<nav class="navbar" id="navbar">
+  <a href="#" class="logo" id="logo">blendo<span>.</span></a>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span class="line"></span><span class="line"></span><span class="line"></span>
+  </div>
+</nav>
+
+<!-- MENU OVERLAY -->
+<div class="menu-overlay" id="menuOverlay">
+  <div class="menu-content">
+    <ul class="menu-links">
+      <li><a href="#" onclick="toggleMenu()"><span class="num">01</span>services</a></li>
+      <li><a href="#" onclick="toggleMenu()"><span class="num">02</span>work</a></li>
+      <li><a href="#" onclick="toggleMenu()"><span class="num">03</span>about</a></li>
+      <li><a href="#" onclick="toggleMenu()"><span class="num">04</span>blog</a></li>
+      <li><a href="#" onclick="toggleMenu()"><span class="num">05</span>let's talk</a></li>
+    </ul>
+    <div class="menu-footer">
+      <div class="menu-footer-col"><h4>Get in touch</h4><a href="#"><span class="__cf_email__" data-cfemail="533b363f3f3c13313f363d373c3234363d302a7d303c3e">[email&#160;protected]</span></a><a href="#">+31 (0) 20 123 4567</a></div>
+      <div class="menu-footer-col"><h4>Follow along</h4><a href="#">LinkedIn</a><a href="#">Instagram</a></div>
+      <div class="menu-footer-col"><h4>Visit</h4><p>Amsterdam, Netherlands</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="section-label reveal">Services</div>
+  <h1 class="reveal">We help you spend smarter and grow faster.</h1>
+  <p class="reveal reveal-delay-1">From search to social, strategy to analytics — we focus on the channels that drive real revenue for startups and scale-ups. Nothing more, nothing less.</p>
+</div>
+
+<!-- SERVICES INTRO STRIP -->
+<div class="services-intro">
+  <div class="services-intro-grid">
+    <div class="si-card reveal" onclick="openAccordion(0)">
+      <div class="si-num">01</div>
+      <h3>Paid Search</h3>
+      <p>Google, Bing, Shopping, YouTube — every click earning its keep.</p>
+    </div>
+    <div class="si-card reveal reveal-delay-1" onclick="openAccordion(1)">
+      <div class="si-num">02</div>
+      <h3>Paid Social</h3>
+      <p>Meta, TikTok, LinkedIn, Pinterest — find your audience where they scroll.</p>
+    </div>
+    <div class="si-card reveal reveal-delay-2" onclick="openAccordion(2)">
+      <div class="si-num">03</div>
+      <h3>Analytics & Reporting</h3>
+      <p>Tracking that works and reports you'll actually want to read.</p>
+    </div>
+    <div class="si-card reveal reveal-delay-3" onclick="openAccordion(3)">
+      <div class="si-num">04</div>
+      <h3>Strategy & Consulting</h3>
+      <p>Audit what you've got, find the leaks, plan what's next.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ACCORDION SERVICES -->
+<div class="services-section">
+
+  <!-- PAID SEARCH -->
+  <div class="accordion-item reveal" id="acc-0">
+    <div class="accordion-header" onclick="toggleAccordion(0)">
+      <div class="acc-num">01</div>
+      <div class="acc-title">Paid Search</div>
+      <div class="acc-toggle"><svg viewBox="0 0 14 14"><line x1="7" y1="0" x2="7" y2="14"/><line x1="0" y1="7" x2="14" y2="7"/></svg></div>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p class="acc-intro">We build and manage paid search campaigns designed for one thing: profitable growth. No wasted budget, no set-it-and-forget-it. Every keyword, every bid, every ad — earning its place.</p>
+
+        <div class="acc-platforms">
+          <span class="platform-tag">Google Ads</span>
+          <span class="platform-tag">Microsoft / Bing Ads</span>
+          <span class="platform-tag">Google Shopping</span>
+          <span class="platform-tag">YouTube Ads</span>
+        </div>
+
+        <div class="acc-grid">
+          <div class="acc-col">
+            <h4>What we do</h4>
+            <ul class="acc-list">
+              <li>Account audits and restructuring</li>
+              <li>Keyword research and intent mapping</li>
+              <li>Search, Shopping, and YouTube campaigns</li>
+              <li>Ad copywriting and A/B testing</li>
+              <li>Bid strategy and budget allocation</li>
+              <li>Conversion tracking and attribution setup</li>
+            </ul>
+          </div>
+          <div class="acc-col">
+            <h4>How we work</h4>
+            <ul class="acc-list">
+              <li>Weekly optimisation cycles — not monthly</li>
+              <li>Transparent reporting you can actually read</li>
+              <li>Direct Slack access to your campaign manager</li>
+              <li>No long-term lock-in contracts</li>
+              <li>We cut what doesn't work — fast</li>
+              <li>Results focused, not activity focused</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="acc-proof">
+          <div class="acc-proof-text"><strong>Placeholder case study:</strong> Rebuilt a B2B SaaS Google Ads account from scratch. Cut wasted spend by 60% and focused on high-intent keywords.</div>
+          <div class="acc-proof-stats">
+            <div class="acc-proof-stat"><div class="val">9.2x</div><div class="lbl">ROAS</div></div>
+            <div class="acc-proof-stat"><div class="val">4 mo</div><div class="lbl">To results</div></div>
+          </div>
+        </div>
+
+        <a href="#" class="acc-cta">Discuss your paid search &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAID SOCIAL -->
+  <div class="accordion-item reveal" id="acc-1">
+    <div class="accordion-header" onclick="toggleAccordion(1)">
+      <div class="acc-num">02</div>
+      <div class="acc-title">Paid Social</div>
+      <div class="acc-toggle"><svg viewBox="0 0 14 14"><line x1="7" y1="0" x2="7" y2="14"/><line x1="0" y1="7" x2="14" y2="7"/></svg></div>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p class="acc-intro">We find your audience where they scroll and turn impressions into pipeline. Creative testing, audience strategy, and constant optimisation — across every platform that matters for your business.</p>
+
+        <div class="acc-platforms">
+          <span class="platform-tag">Meta (Facebook + Instagram)</span>
+          <span class="platform-tag">TikTok</span>
+          <span class="platform-tag">LinkedIn</span>
+          <span class="platform-tag">Pinterest</span>
+        </div>
+
+        <div class="acc-grid">
+          <div class="acc-col">
+            <h4>What we do</h4>
+            <ul class="acc-list">
+              <li>Full-funnel campaign strategy</li>
+              <li>Audience research and segmentation</li>
+              <li>Creative concepting and ad production</li>
+              <li>Rapid creative testing (10+ variants per month)</li>
+              <li>Retargeting and lookalike audience builds</li>
+              <li>Platform-specific optimisation</li>
+            </ul>
+          </div>
+          <div class="acc-col">
+            <h4>How we work</h4>
+            <ul class="acc-list">
+              <li>Creative-led approach — ads that don't look like ads</li>
+              <li>Test fast, scale winners, kill losers</li>
+              <li>Bi-weekly creative refresh cycles</li>
+              <li>Full attribution and cross-platform reporting</li>
+              <li>We work with your brand, not against it</li>
+              <li>Transparent spend tracking — always</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="acc-proof">
+          <div class="acc-proof-text"><strong>Placeholder case study:</strong> Launched Meta and TikTok campaigns for a DTC brand. Rapid creative testing helped scale from &euro;2K to &euro;15K/mo profitably.</div>
+          <div class="acc-proof-stats">
+            <div class="acc-proof-stat"><div class="val">5.8x</div><div class="lbl">ROAS</div></div>
+            <div class="acc-proof-stat"><div class="val">-42%</div><div class="lbl">CPA reduction</div></div>
+          </div>
+        </div>
+
+        <a href="#" class="acc-cta">Discuss your paid social &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANALYTICS -->
+  <div class="accordion-item reveal" id="acc-2">
+    <div class="accordion-header" onclick="toggleAccordion(2)">
+      <div class="acc-num">03</div>
+      <div class="acc-title">Analytics & Reporting</div>
+      <div class="acc-toggle"><svg viewBox="0 0 14 14"><line x1="7" y1="0" x2="7" y2="14"/><line x1="0" y1="7" x2="14" y2="7"/></svg></div>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p class="acc-intro">No more mystery dashboards. We set up tracking that actually works, build reports you'll want to read, and make sure every euro is accounted for — from click to conversion.</p>
+
+        <div class="acc-platforms">
+          <span class="platform-tag">Google Analytics 4</span>
+          <span class="platform-tag">Google Tag Manager</span>
+          <span class="platform-tag">Looker Studio</span>
+          <span class="platform-tag">Server-side Tracking</span>
+        </div>
+
+        <div class="acc-grid">
+          <div class="acc-col">
+            <h4>What we do</h4>
+            <ul class="acc-list">
+              <li>GA4 setup and configuration</li>
+              <li>Conversion tracking and event setup</li>
+              <li>Server-side tagging (for iOS accuracy)</li>
+              <li>Custom Looker Studio dashboards</li>
+              <li>Attribution modelling</li>
+              <li>Data layer implementation</li>
+            </ul>
+          </div>
+          <div class="acc-col">
+            <h4>How we work</h4>
+            <ul class="acc-list">
+              <li>Audit first — fix what's broken before building new</li>
+              <li>Dashboards built around your KPIs, not vanity metrics</li>
+              <li>Weekly performance summaries in plain language</li>
+              <li>Cross-platform data connected in one place</li>
+              <li>We explain the numbers, not just show them</li>
+              <li>Ongoing monitoring and QA</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="acc-proof">
+          <div class="acc-proof-text"><strong>Common outcome:</strong> Most clients discover they've been underreporting conversions by 20-40% due to broken tracking. Fixing this changes everything.</div>
+          <div class="acc-proof-stats">
+            <div class="acc-proof-stat"><div class="val">35%</div><div class="lbl">Avg. tracking gap found</div></div>
+          </div>
+        </div>
+
+        <a href="#" class="acc-cta">Fix your tracking &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRATEGY -->
+  <div class="accordion-item reveal" id="acc-3">
+    <div class="accordion-header" onclick="toggleAccordion(3)">
+      <div class="acc-num">04</div>
+      <div class="acc-title">Strategy & Consulting</div>
+      <div class="acc-toggle"><svg viewBox="0 0 14 14"><line x1="7" y1="0" x2="7" y2="14"/><line x1="0" y1="7" x2="14" y2="7"/></svg></div>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-body-inner">
+        <p class="acc-intro">Not sure where to start — or where your current setup is leaking budget? We'll audit what you've got, find the opportunities, and map out a plan that makes sense for your stage, market, and budget.</p>
+
+        <div class="acc-platforms">
+          <span class="platform-tag">Account Audits</span>
+          <span class="platform-tag">Market Research</span>
+          <span class="platform-tag">Channel Strategy</span>
+          <span class="platform-tag">Budget Planning</span>
+        </div>
+
+        <div class="acc-grid">
+          <div class="acc-col">
+            <h4>What we do</h4>
+            <ul class="acc-list">
+              <li>Full paid media audit (search + social)</li>
+              <li>Competitor and market landscape analysis</li>
+              <li>Channel mix recommendations</li>
+              <li>Budget allocation strategy</li>
+              <li>Growth roadmap (30 / 60 / 90 day plan)</li>
+              <li>Team training and capability building</li>
+            </ul>
+          </div>
+          <div class="acc-col">
+            <h4>Best for</h4>
+            <ul class="acc-list">
+              <li>Startups about to invest in paid for the first time</li>
+              <li>Scale-ups not sure if their agency is performing</li>
+              <li>In-house teams that need a second opinion</li>
+              <li>Founders doing marketing themselves (for now)</li>
+              <li>Companies preparing for a funding round</li>
+              <li>Businesses expanding into new markets</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="acc-proof">
+          <div class="acc-proof-text"><strong>How it starts:</strong> A free 30-minute strategy call. We'll look at your current setup, identify quick wins, and tell you honestly what we'd do — whether you work with us or not.</div>
+          <div class="acc-proof-stats">
+            <div class="acc-proof-stat"><div class="val">Free</div><div class="lbl">Strategy call</div></div>
+            <div class="acc-proof-stat"><div class="val">30 min</div><div class="lbl">No strings</div></div>
+          </div>
+        </div>
+
+        <a href="#" class="acc-cta">Book your strategy call &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM CTA -->
+<section class="page-cta">
+  <h2>Not sure which service you need?</h2>
+  <p>No worries — that's what the strategy call is for. Let's have a chat and figure it out together.</p>
+  <a href="#" class="cta-link">Book a free strategy call &rarr;</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">blendo<span>.</span></div>
+    <div class="footer-links"><a href="#">services</a><a href="#">work</a><a href="#">about</a><a href="#">contact</a></div>
+    <p>&copy; 2026 Blendo Agency. Amsterdam.</p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function toggleMenu(){
+  const o=document.getElementById('menuOverlay'),h=document.getElementById('hamburger'),l=document.getElementById('logo');
+  o.classList.toggle('open');h.classList.toggle('open');l.classList.toggle('menu-open');
+  document.body.style.overflow=o.classList.contains('open')?'hidden':'';
+}
+window.addEventListener('scroll',()=>{
+  const n=document.getElementById('navbar');
+  if(!document.getElementById('menuOverlay').classList.contains('open'))n.classList.toggle('scrolled',window.scrollY>80);
+});
+
+function toggleAccordion(index){
+  const items=document.querySelectorAll('.accordion-item');
+  items.forEach((item,i)=>{
+    const body=item.querySelector('.accordion-body');
+    if(i===index){
+      if(item.classList.contains('open')){
+        item.classList.remove('open');
+        body.style.maxHeight=null;
+      }else{
+        item.classList.add('open');
+        body.style.maxHeight=body.scrollHeight+'px';
+      }
+    }else{
+      item.classList.remove('open');
+      body.style.maxHeight=null;
+    }
+  });
+}
+
+function openAccordion(index){
+  const target=document.getElementById('acc-'+index);
+  if(target){
+    target.scrollIntoView({behavior:'smooth',block:'start'});
+    setTimeout(()=>toggleAccordion(index),400);
+  }
+}
+
+const ro=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){en

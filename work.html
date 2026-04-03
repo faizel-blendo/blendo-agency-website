@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blendo Agency — Work</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--blue:#364CFF;--blue-light:#5A6FFF;
+--black:#0a0a0a;--dark:#1a1a1a;
+--gray:#6b6b6b;--gray-light:#a0a0a0;
+--gray-border:#e5e5e5;--gray-bg:#f7f7f7;
+--white:#ffffff;--green:#06D6A0;--coral:#FF6B6B;
+--font-display:'Plus Jakarta Sans',sans-serif;
+--font-body:'DM Sans',sans-serif;
+--font-mono:'Space Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--black);background:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.8rem 3rem;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s}
+.navbar.scrolled{padding:1rem 3rem;background:rgba(255,255,255,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--gray-border)}
+.logo{font-family:var(--font-display);font-weight:800;font-size:1.4rem;color:var(--black);letter-spacing:-0.5px;text-decoration:none;z-index:301}
+.logo span{color:var(--blue)}
+.logo.menu-open{color:var(--white)}.logo.menu-open span{color:var(--blue-light)}
+.hamburger{width:36px;height:24px;cursor:pointer;z-index:301;display:flex;flex-direction:column;justify-content:space-between}
+.hamburger .line{display:block;width:100%;height:2px;background:var(--black);transition:all 0.4s cubic-bezier(0.68,-0.6,0.32,1.6);transform-origin:center}
+.hamburger.open .line{background:var(--white)}
+.hamburger.open .line:nth-child(1){transform:translateY(11px) rotate(45deg)}
+.hamburger.open .line:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open .line:nth-child(3){transform:translateY(-11px) rotate(-45deg)}
+.menu-overlay{position:fixed;inset:0;z-index:300;background:var(--black);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.5s ease}
+.menu-overlay.open{opacity:1;pointer-events:all}
+.menu-content{text-align:left;max-width:800px;width:100%;padding:3rem}
+.menu-links{list-style:none;margin-bottom:3rem}
+.menu-links li{overflow:hidden}
+.menu-links a{font-family:var(--font-display);font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;color:var(--white);text-decoration:none;letter-spacing:-2px;line-height:1.3;display:block;transform:translateY(100%);transition:transform 0.5s cubic-bezier(0.16,1,0.3,1),color 0.3s}
+.menu-overlay.open .menu-links a{transform:translateY(0)}
+.menu-links li:nth-child(1) a{transition-delay:0.1s}
+.menu-links li:nth-child(2) a{transition-delay:0.15s}
+.menu-links li:nth-child(3) a{transition-delay:0.2s}
+.menu-links li:nth-child(4) a{transition-delay:0.25s}
+.menu-links li:nth-child(5) a{transition-delay:0.3s}
+.menu-links a:hover{color:var(--blue)}
+.menu-links a .num{font-family:var(--font-mono);font-size:0.8rem;color:var(--gray);vertical-align:super;margin-right:0.8rem;font-weight:400;letter-spacing:0}
+.menu-footer{display:flex;gap:4rem;opacity:0;transform:translateY(20px);transition:all 0.5s ease 0.35s}
+.menu-overlay.open .menu-footer{opacity:1;transform:translateY(0)}
+.menu-footer-col h4{font-family:var(--font-display);font-size:0.85rem;font-weight:700;color:var(--white);margin-bottom:0.6rem}
+.menu-footer-col p,.menu-footer-col a{font-size:0.85rem;color:var(--gray);text-decoration:none;line-height:1.8;display:block}
+.menu-footer-col a:hover{color:var(--white)}
+
+/* SHARED */
+.section-label{font-family:var(--font-mono);font-size:0.75rem;color:var(--gray-light);text-transform:uppercase;letter-spacing:3px;margin-bottom:1.5rem}
+.section-title{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:1.5rem;max-width:700px}
+
+/* PAGE HERO */
+.page-hero{padding:10rem 3rem 4rem;max-width:1100px;margin:0 auto}
+.page-hero h1{font-family:var(--font-display);font-size:clamp(2.8rem,5.5vw,4.5rem);font-weight:800;line-height:1.08;letter-spacing:-2.5px;color:var(--black);margin-bottom:2rem;max-width:800px}
+.page-hero p{font-size:1.2rem;color:var(--gray);line-height:1.7;max-width:580px}
+
+/* FILTER BAR */
+.filter-bar{padding:0 3rem 3rem;max-width:1100px;margin:0 auto;display:flex;gap:0.6rem;flex-wrap:wrap}
+.filter-tag{font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.5px;padding:0.5rem 1rem;border:1px solid var(--gray-border);border-radius:20px;color:var(--gray);cursor:pointer;transition:all 0.3s;background:none}
+.filter-tag:hover,.filter-tag.active{border-color:var(--blue);color:var(--blue);background:rgba(54,76,255,0.04)}
+
+/* CASE STUDY GRID */
+.cases-grid{padding:0 3rem 6rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.case-card{cursor:pointer;transition:transform 0.4s;text-decoration:none;color:inherit}
+.case-card:hover{transform:translateY(-6px)}
+.case-img{width:100%;height:320px;position:relative;overflow:hidden;margin-bottom:1.5rem}
+.case-img-bg{position:absolute;inset:0}
+.ci-1{background:linear-gradient(160deg,#0f172a,#1e293b)}
+.ci-2{background:linear-gradient(160deg,#1a1a2e,#16213e)}
+.ci-3{background:linear-gradient(160deg,#172024,#1a2a30)}
+.ci-4{background:linear-gradient(160deg,#1c1525,#251e35)}
+.mock-s{position:absolute;top:30px;left:30px;right:30px;bottom:0;border-radius:8px 8px 0 0;overflow:hidden}
+.mock-tb{height:24px;background:rgba(255,255,255,0.06);display:flex;align-items:center;padding:0 10px;gap:5px}
+.mock-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.12)}
+.mock-url{flex:1;height:12px;background:rgba(255,255,255,0.04);border-radius:3px;margin-left:6px}
+.mock-body{padding:14px;display:flex;flex-direction:column;gap:6px}
+.mock-ln{height:7px;border-radius:3px;background:rgba(255,255,255,0.05)}
+.mock-ln.w50{width:50%}.mock-ln.w70{width:70%}.mock-ln.w40{width:40%}.mock-ln.w80{width:80%}
+.mock-ln.ac{background:rgba(54,76,255,0.15);width:45%}
+.mock-ln.gc{background:rgba(6,214,160,0.15);width:55%}
+.mock-bars{display:flex;align-items:flex-end;gap:3px;height:50px;margin-top:6px}
+.mock-bar{flex:1;border-radius:2px 2px 0 0}
+.mock-boxes{display:flex;gap:6px;margin-top:4px}
+.mock-box{flex:1;height:35px;border-radius:4px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05)}
+.case-tags{display:flex;gap:0.5rem;margin-bottom:0.6rem}
+.case-tag{font-family:var(--font-mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--blue);background:rgba(54,76,255,0.06);padding:0.25rem 0.6rem;border-radius:12px}
+.case-card h3{font-family:var(--font-display);font-size:1.25rem;font-weight:700;letter-spacing:-0.5px;margin-bottom:0.4rem;transition:color 0.3s}
+.case-card:hover h3{color:var(--blue)}
+.case-card .case-desc{font-size:0.9rem;color:var(--gray);line-height:1.6;margin-bottom:1rem}
+.case-stats{display:flex;gap:1.5rem}
+.case-stat .val{font-family:var(--font-mono);font-size:1.2rem;font-weight:700;color:var(--black)}
+.case-stat .lbl{font-size:0.68rem;color:var(--gray);margin-top:0.1rem}
+
+/* DIVIDER */
+.section-divider{max-width:1100px;margin:0 auto;padding:0 3rem}
+.section-divider hr{border:none;border-top:1px solid var(--gray-border)}
+
+/* CASE STUDY TEMPLATE PREVIEW */
+.case-template{padding:5rem 3rem 6rem;max-width:1100px;margin:0 auto}
+.ct-label{font-family:var(--font-mono);font-size:0.7rem;color:var(--gray-light);letter-spacing:2px;text-transform:uppercase;margin-bottom:3rem;padding-bottom:1rem;border-bottom:1px solid var(--gray-border)}
+
+.ct-hero{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-bottom:4rem;align-items:start}
+.ct-hero-text h2{font-family:var(--font-display);font-size:2.5rem;font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:1rem}
+.ct-hero-text .ct-client{font-family:var(--font-mono);font-size:0.8rem;color:var(--blue);margin-bottom:1rem}
+.ct-hero-text p{font-size:1.05rem;color:var(--gray);line-height:1.8}
+.ct-hero-meta{display:flex;flex-direction:column;gap:1.5rem}
+.ct-meta-item{padding-bottom:1.5rem;border-bottom:1px solid var(--gray-border)}
+.ct-meta-item:last-child{border:none}
+.ct-meta-item h4{font-family:var(--font-display);font-size:0.8rem;font-weight:700;color:var(--gray-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.4rem}
+.ct-meta-item p{font-size:0.95rem;color:var(--dark);line-height:1.5}
+
+.ct-img{width:100%;height:400px;background:linear-gradient(160deg,#0f172a,#1e293b);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:4rem;position:relative;overflow:hidden}
+.ct-img .mock-s{top:30px;left:40px;right:40px}
+.ct-img-label{font-family:var(--font-mono);font-size:0.7rem;color:var(--gray);letter-spacing:2px;text-transform:uppercase;position:relative;z-index:2}
+
+.ct-results{background:var(--black);border-radius:8px;padding:3rem;margin-bottom:4rem}
+.ct-results h3{font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--white);margin-bottom:2rem;letter-spacing:-0.5px}
+.ct-results-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
+.ct-result-item .ct-val{font-family:var(--font-mono);font-size:2rem;font-weight:700;color:var(--green);margin-bottom:0.2rem}
+.ct-result-item .ct-lbl{font-size:0.8rem;color:var(--gray)}
+
+.ct-story{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-bottom:3rem}
+.ct-story-col h3{font-family:var(--font-display);font-size:1.15rem;font-weight:700;letter-spacing:-0.3px;margin-bottom:1rem}
+.ct-story-col p{font-size:0.95rem;color:var(--gray);line-height:1.8}
+
+.ct-quote{border-left:3px solid var(--blue);padding:1.5rem 0 1.5rem 2rem;margin-bottom:3rem}
+.ct-quote p{font-family:var(--font-display);font-size:1.2rem;font-weight:600;color:var(--dark);line-height:1.5;letter-spacing:-0.3px}
+.ct-quote cite{font-style:normal;font-size:0.85rem;color:var(--gray);margin-top:0.6rem;display:block}
+
+/* CTA */
+.page-cta{background:var(--black);padding:6rem 3rem;text-align:center;position:relative;overflow:hidden}
+.page-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(54,76,255,0.1),transparent 70%);pointer-events:none}
+.page-cta h2{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:800;color:var(--white);letter-spacing:-1.5px;margin-bottom:1.2rem}
+.page-cta p{font-size:1.1rem;color:var(--gray);max-width:480px;margin:0 auto 2.5rem;line-height:1.7}
+.cta-link{display:inline-flex;align-items:center;gap:0.6rem;color:var(--blue);font-weight:600;font-size:1.1rem;text-decoration:none;border-bottom:2px solid var(--blue);padding-bottom:0.3rem;transition:gap 0.3s}
+.cta-link:hover{gap:1rem}
+
+/* FOOTER */
+footer{padding:2.5rem 3rem;border-top:1px solid rgba(255,255,255,0.06);background:var(--black)}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.footer-logo{font-family:var(--font-display);font-weight:800;font-size:1.1rem;color:var(--white)}
+.footer-logo span{color:var(--blue)}
+footer p{font-size:0.78rem;color:var(--gray)}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{font-size:0.78rem;color:var(--gray);text-decoration:none;transition:color 0.2s}
+.footer-links a:hover{color:var(--white)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .navbar{padding:1.2rem 1.5rem}
+  .page-hero,.filter-bar,.cases-grid,.case-template{padding-left:1.5rem;padding-right:1.5rem}
+  .cases-grid{grid-template-columns:1fr}
+  .ct-hero,.ct-story{grid-template-columns:1fr;gap:2rem}
+  .ct-results-grid{grid-template-columns:1fr 1fr;gap:1.5rem}
+  .menu-content{padding:1.5rem}
+  .menu-footer{flex-direction:column;gap:2rem}
+}
+@media(max-width:600px){
+  .ct-results-grid{grid-template-columns:1fr}
+  .page-cta{padding:4rem 1.5rem}
+}
+.mockup-badge{position:fixed;bottom:1rem;right:1rem;background:var(--black);color:var(--white);font-family:var(--font-mono);font-size:0.6rem;padding:0.4rem 0.8rem;border-radius:4px;z-index:400;letter-spacing:1px;opacity:0.5}
+</style>
+</head>
+<body>
+
+<div class="mockup-badge">WORK MOCKUP v1</div>
+
+<!-- NAV -->
+<nav class="navbar" id="navbar">
+  <a href="#" class="logo" id="logo">blendo<span>.</span></a>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span class="line"></span><span class="line"></span><span class="line"></span>
+  </div>
+</nav>
+<div class="menu-overlay" id="menuOverlay">
+  <div class="menu-content">
+    <ul class="menu-links">
+      <li><a href="#" onclick="toggleMenu()"><span class="num">01</span>services</a></li>
+      <li><a href="#" onclick="toggleMenu()"><span class="num">02</span>work</a></li>
+      <li><a href="#" onclick="toggleMenu()"><span class="num">03</span>about</a></li>
+      <li><a href="#" onclick="toggleMenu()"><span class="num">04</span>blog</a></li>
+      <li><a href="#" onclick="toggleMenu()"><span class="num">05</span>let's talk</a></li>
+    </ul>
+    <div class="menu-footer">
+      <div class="menu-footer-col"><h4>Get in touch</h4><a href="#"><span class="__cf_email__" data-cfemail="7f171a1313103f1d131a111b101e181a111c06511c1012">[email&#160;protected]</span></a><a href="#">+31 (0) 20 123 4567</a></div>
+      <div class="menu-footer-col"><h4>Follow along</h4><a href="#">LinkedIn</a><a href="#">Instagram</a></div>
+      <div class="menu-footer-col"><h4>Visit</h4><p>Amsterdam, Netherlands</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="section-label reveal">Work</div>
+  <h1 class="reveal">Don't take our word for it. Take our numbers.</h1>
+  <p class="reveal reveal-delay-1">Real results from real startups and scale-ups. Here's what happens when your marketing actually works.</p>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar reveal">
+  <span class="filter-tag active">All</span>
+  <span class="filter-tag">Paid Search</span>
+  <span class="filter-tag">Paid Social</span>
+  <span class="filter-tag">Analytics</span>
+  <span class="filter-tag">SaaS</span>
+  <span class="filter-tag">E-commerce</span>
+  <span class="filter-tag">B2B</span>
+</div>
+
+<!-- CASE STUDY GRID -->
+<div class="cases-grid">
+
+  <a class="case-card reveal" href="#">
+    <div class="case-img"><div class="case-img-bg ci-1">
+      <div class="mock-s"><div class="mock-tb"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-url"></div></div>
+      <div class="mock-body"><div class="mock-boxes"><div class="mock-box"></div><div class="mock-box"></div><div class="mock-box"></div></div>
+      <div class="mock-bars"><div class="mock-bar" style="height:25%;background:rgba(54,76,255,0.25)"></div><div class="mock-bar" style="height:40%;background:rgba(54,76,255,0.35)"></div><div class="mock-bar" style="height:55%;background:rgba(54,76,255,0.5)"></div><div class="mock-bar" style="height:70%;background:rgba(54,76,255,0.65)"></div><div class="mock-bar" style="height:85%;background:rgba(54,76,255,0.8)"></div><div class="mock-bar" style="height:100%;background:var(--blue)"></div></div>
+      <div class="mock-ln ac"></div><div class="mock-ln w70"></div></div></div>
+    </div></div>
+    <div class="case-tags"><span class="case-tag">SaaS</span><span class="case-tag">Paid Search</span></div>
+    <h3>[Client Name] — B2B SaaS Platform</h3>
+    <p class="case-desc">Rebuilt their Google Ads account from scratch. Cut wasted spend by 60% and focused on high-intent keywords.</p>
+    <div class="case-stats">
+      <div class="case-stat"><div class="val">9.2x</div><div class="lbl">ROAS</div></div>
+      <div class="case-stat"><div class="val">&euro;126K</div><div class="lbl">Monthly revenue</div></div>
+      <div class="case-stat"><div class="val">4 mo</div><div class="lbl">To results</div></div>
+    </div>
+  </a>
+
+  <a class="case-card reveal reveal-delay-1" href="#">
+    <div class="case-img"><div class="case-img-bg ci-2">
+      <div class="mock-s"><div class="mock-tb"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-url"></div></div>
+      <div class="mock-body"><div class="mock-ln w80"></div><div class="mock-ln w50"></div>
+      <div class="mock-boxes"><div class="mock-box"></div><div class="mock-box"></div></div>
+      <div class="mock-bars"><div class="mock-bar" style="height:30%;background:rgba(6,214,160,0.25)"></div><div class="mock-bar" style="height:50%;background:rgba(6,214,160,0.4)"></div><div class="mock-bar" style="height:65%;background:rgba(6,214,160,0.55)"></div><div class="mock-bar" style="height:80%;background:rgba(6,214,160,0.7)"></div><div class="mock-bar" style="height:100%;background:var(--green)"></div><div class="mock-bar" style="height:90%;background:rgba(6,214,160,0.8)"></div></div>
+      <div class="mock-ln gc"></div></div></div>
+    </div></div>
+    <div class="case-tags"><span class="case-tag">E-commerce</span><span class="case-tag">Paid Social</span></div>
+    <h3>[Client Name] — DTC Fashion Brand</h3>
+    <p class="case-desc">Launched Meta and TikTok campaigns with rapid creative testing. Scaled spend profitably from &euro;2K to &euro;15K/mo.</p>
+    <div class="case-stats">
+      <div class="case-stat"><div class="val">5.8x</div><div class="lbl">ROAS</div></div>
+      <div class="case-stat"><div class="val">-42%</div><div class="lbl">CPA reduction</div></div>
+      <div class="case-stat"><div class="val">6 mo</div><div class="lbl">To results</div></div>
+    </div>
+  </a>
+
+  <a class="case-card reveal" href="#">
+    <div class="case-img"><div class="case-img-bg ci-3">
+      <div class="mock-s"><div class="mock-tb"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-url"></div></div>
+      <div class="mock-body"><div class="mock-ln w70"></div><div class="mock-ln w40"></div><div class="mock-ln ac"></div>
+      <div class="mock-boxes"><div class="mock-box"></div><div class="mock-box"></div><div class="mock-box"></div><div class="mock-box"></div></div>
+      <div class="mock-ln w50"></div></div></div>
+    </div></div>
+    <div class="case-tags"><span class="case-tag">B2B</span><span class="case-tag">Analytics</span></div>
+    <h3>[Client Name] — Fintech Scale-up</h3>
+    <p class="case-desc">Fixed broken conversion tracking and discovered a 35% underreporting gap. Rebuilt attribution and optimised for true CPA.</p>
+    <div class="case-stats">
+      <div class="case-stat"><div class="val">35%</div><div class="lbl">Tracking gap fixed</div></div>
+      <div class="case-stat"><div class="val">-28%</div><div class="lbl">True CPA drop</div></div>
+      <div class="case-stat"><div class="val">2 mo</div><div class="lbl">To results</div></div>
+    </div>
+  </a>
+
+  <a class="case-card reveal reveal-delay-1" href="#">
+    <div class="case-img"><div class="case-img-bg ci-4">
+      <div class="mock-s"><div class="mock-tb"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-url"></div></div>
+      <div class="mock-body"><div class="mock-boxes"><div class="mock-box"></div><div class="mock-box"></div></div>
+      <div class="mock-ln w80"></div><div class="mock-ln gc"></div>
+      <div class="mock-bars"><div class="mock-bar" style="height:20%;background:rgba(255,107,107,0.2)"></div><div class="mock-bar" style="height:35%;background:rgba(54,76,255,0.3)"></div><div class="mock-bar" style="height:50%;background:rgba(54,76,255,0.5)"></div><div class="mock-bar" style="height:65%;background:rgba(54,76,255,0.65)"></div><div class="mock-bar" style="height:80%;background:rgba(6,214,160,0.6)"></div><div class="mock-bar" style="height:100%;background:var(--green)"></div></div></div></div>
+    </div></div>
+    <div class="case-tags"><span class="case-tag">SaaS</span><span class="case-tag">Paid Search</span><span class="case-tag">Paid Social</span></div>
+    <h3>[Client Name] — HR Tech Startup</h3>
+    <p class="case-desc">Full-funnel performance marketing: Google Ads for high-intent, LinkedIn for awareness. Built a predictable lead pipeline from scratch.</p>
+    <div class="case-stats">
+      <div class="case-stat"><div class="val">4.3x</div><div class="lbl">ROAS</div></div>
+      <div class="case-stat"><div class="val">220+</div><div class="lbl">Leads/month</div></div>
+      <div class="case-stat"><div class="val">5 mo</div><div class="lbl">To results</div></div>
+    </div>
+  </a>
+
+</div>
+
+<!-- DIVIDER -->
+<div class="section-divider"><hr></div>
+
+<!-- CASE STUDY TEMPLATE PREVIEW -->
+<div class="case-template">
+  <div class="ct-label reveal">Below: Single case study page template</div>
+
+  <div class="ct-hero reveal">
+    <div class="ct-hero-text">
+      <div class="ct-client">[Client Name] &mdash; B2B SaaS</div>
+      <h2>From leaking budget to 9.2x ROAS in four months.</h2>
+      <p>When [Client Name] came to us, they were spending &euro;14K/mo on Google Ads with no clear picture of what was working. We rebuilt their account from scratch and turned it into a revenue machine.</p>
+    </div>
+    <div class="ct-hero-meta">
+      <div class="ct-meta-item"><h4>Services</h4><p>Paid Search, Analytics & Reporting</p></div>
+      <div class="ct-meta-item"><h4>Industry</h4><p>B2B SaaS / Technology</p></div>
+      <div class="ct-meta-item"><h4>Timeline</h4><p>4 months to full results</p></div>
+      <div class="ct-meta-item"><h4>Platforms</h4><p>Google Ads, Google Analytics 4</p></div>
+    </div>
+  </div>
+
+  <div class="ct-img reveal">
+    <div class="ct-img-label">Full-width project image / dashboard screenshot</div>
+  </div>
+
+  <div class="ct-results reveal">
+    <h3>The results</h3>
+    <div class="ct-results-grid">
+      <div class="ct-result-item"><div class="ct-val">9.2x</div><div class="ct-lbl">Return on ad spend</div></div>
+      <div class="ct-result-item"><div class="ct-val">&euro;126K</div><div class="ct-lbl">Monthly revenue from ads</div></div>
+      <div class="ct-result-item"><div class="ct-val">-60%</div><div class="ct-lbl">Wasted spend eliminated</div></div>
+      <div class="ct-result-item"><div class="ct-val">4 mo</div><div class="ct-lbl">Time to results</div></div>
+    </div>
+  </div>
+
+  <div class="ct-story reveal">
+    <div class="ct-story-col">
+      <h3>The challenge</h3>
+      <p>[Client Name] had been running Google Ads in-house for over a year. They were spending &euro;14K per month but couldn't tell which campaigns were driving real revenue. Their tracking was broken, their account structure was messy, and they suspected a large chunk of their budget was being wasted — but didn't know where.</p>
+    </div>
+    <div class="ct-story-col">
+      <h3>What we did</h3>
+      <p>We started with a full account audit and tracking overhaul. We rebuilt the campaign structure around intent tiers, fixed conversion attribution, and cut all underperforming keywords. Then we launched a testing framework — new ad copy, landing page variants, and bid strategies — optimising weekly based on real revenue data, not just clicks.</p>
+    </div>
+  </div>
+
+  <div class="ct-quote reveal">
+    <p>"Blendo found the leaks in our ad spend that we'd been missing for months. Within 60 days we went from guessing to knowing exactly what every euro was doing."</p>
+    <cite>— [Name], [Title] at [Client Name]</cite>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<section class="page-cta">
+  <h2>Want results like these?</h2>
+  <p>Every engagement starts with a free strategy call. Let's look at what's possible for your business.</p>
+  <a href="#" class="cta-link">Book a free strategy call &rarr;</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">blendo<span>.</span></div>
+    <div class="footer-links"><a href="#">services</a><a href="#">work</a><a href="#">about</a><a href="#">contact</a></div>
+    <p>&copy; 2026 Blendo Agency. Amsterdam.</p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function toggleMenu(){const o=document.getElementById('menuOverlay'),h=document.getElementById('hamburger'),l=document.getElementById('logo');o.classList.toggle('open');h.classList.toggle('open');l.classList.toggle('menu-open');document.body.style.overflow=o.classList.contains('open')?'hidden':''}
+window.addEventListener('scroll',()=>{const n=document.getElementById('navbar');if(!document.getElementById('menuOverlay').classList.contains('open'))n.classList.toggle('scrolled',window.scrollY>80)});
+const ro=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){en.target.classList.add('visible');ro.unobserve(en.target)}})},{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+document.querySelectorAll('

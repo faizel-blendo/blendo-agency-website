@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blendo Agency — Blog</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--blue:#364CFF;--blue-light:#5A6FFF;
+--black:#0a0a0a;--dark:#1a1a1a;
+--gray:#6b6b6b;--gray-light:#a0a0a0;
+--gray-border:#e5e5e5;--gray-bg:#f7f7f7;
+--white:#ffffff;--green:#06D6A0;--coral:#FF6B6B;
+--font-display:'Plus Jakarta Sans',sans-serif;
+--font-body:'DM Sans',sans-serif;
+--font-mono:'Space Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--black);background:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.8rem 3rem;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s}
+.navbar.scrolled{padding:1rem 3rem;background:rgba(255,255,255,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--gray-border)}
+.logo{font-family:var(--font-display);font-weight:800;font-size:1.4rem;color:var(--black);letter-spacing:-0.5px;text-decoration:none;z-index:301}
+.logo span{color:var(--blue)}
+.logo.menu-open{color:var(--white)}.logo.menu-open span{color:var(--blue-light)}
+.hamburger{width:36px;height:24px;cursor:pointer;z-index:301;display:flex;flex-direction:column;justify-content:space-between}
+.hamburger .line{display:block;width:100%;height:2px;background:var(--black);transition:all 0.4s cubic-bezier(0.68,-0.6,0.32,1.6);transform-origin:center}
+.hamburger.open .line{background:var(--white)}
+.hamburger.open .line:nth-child(1){transform:translateY(11px) rotate(45deg)}
+.hamburger.open .line:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open .line:nth-child(3){transform:translateY(-11px) rotate(-45deg)}
+.menu-overlay{position:fixed;inset:0;z-index:300;background:var(--black);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.5s ease}
+.menu-overlay.open{opacity:1;pointer-events:all}
+.menu-content{text-align:left;max-width:800px;width:100%;padding:3rem}
+.menu-links{list-style:none;margin-bottom:3rem}
+.menu-links li{overflow:hidden}
+.menu-links a{font-family:var(--font-display);font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;color:var(--white);text-decoration:none;letter-spacing:-2px;line-height:1.3;display:block;transform:translateY(100%);transition:transform 0.5s cubic-bezier(0.16,1,0.3,1),color 0.3s}
+.menu-overlay.open .menu-links a{transform:translateY(0)}
+.menu-links li:nth-child(1) a{transition-delay:0.1s}
+.menu-links li:nth-child(2) a{transition-delay:0.15s}
+.menu-links li:nth-child(3) a{transition-delay:0.2s}
+.menu-links li:nth-child(4) a{transition-delay:0.25s}
+.menu-links li:nth-child(5) a{transition-delay:0.3s}
+.menu-links a:hover{color:var(--blue)}
+.menu-links a .num{font-family:var(--font-mono);font-size:0.8rem;color:var(--gray);vertical-align:super;margin-right:0.8rem;font-weight:400;letter-spacing:0}
+.menu-footer{display:flex;gap:4rem;opacity:0;transform:translateY(20px);transition:all 0.5s ease 0.35s}
+.menu-overlay.open .menu-footer{opacity:1;transform:translateY(0)}
+.menu-footer-col h4{font-family:var(--font-display);font-size:0.85rem;font-weight:700;color:var(--white);margin-bottom:0.6rem}
+.menu-footer-col p,.menu-footer-col a{font-size:0.85rem;color:var(--gray);text-decoration:none;line-height:1.8;display:block}
+.menu-footer-col a:hover{color:var(--white)}
+
+/* SHARED */
+.section-label{font-family:var(--font-mono);font-size:0.75rem;color:var(--gray-light);text-transform:uppercase;letter-spacing:3px;margin-bottom:1.5rem}
+
+/* PAGE HERO */
+.page-hero{padding:10rem 3rem 3rem;max-width:1100px;margin:0 auto}
+.page-hero h1{font-family:var(--font-display);font-size:clamp(2.8rem,5.5vw,4.5rem);font-weight:800;line-height:1.08;letter-spacing:-2.5px;color:var(--black);margin-bottom:1.5rem;max-width:700px}
+.page-hero p{font-size:1.15rem;color:var(--gray);line-height:1.7;max-width:520px}
+
+/* FILTER */
+.filter-bar{padding:2rem 3rem 3rem;max-width:1100px;margin:0 auto;display:flex;gap:0.6rem;flex-wrap:wrap}
+.filter-tag{font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.5px;padding:0.5rem 1rem;border:1px solid var(--gray-border);border-radius:20px;color:var(--gray);cursor:pointer;transition:all 0.3s;background:none}
+.filter-tag:hover,.filter-tag.active{border-color:var(--blue);color:var(--blue);background:rgba(54,76,255,0.04)}
+
+/* FEATURED POST */
+.featured{padding:0 3rem 4rem;max-width:1100px;margin:0 auto}
+.featured-card{display:grid;grid-template-columns:1.2fr 0.8fr;gap:3rem;border:1px solid var(--gray-border);border-radius:8px;overflow:hidden;cursor:pointer;transition:transform 0.4s,border-color 0.3s;text-decoration:none;color:inherit}
+.featured-card:hover{transform:translateY(-4px);border-color:var(--blue)}
+.featured-img{background:linear-gradient(160deg,#0f172a,#1e293b);min-height:320px;display:flex;align-items:center;justify-content:center;position:relative}
+.featured-img .fi-label{font-family:var(--font-mono);font-size:0.7rem;color:var(--gray);letter-spacing:2px;text-transform:uppercase}
+.featured-body{padding:2.5rem 2.5rem 2.5rem 0;display:flex;flex-direction:column;justify-content:center}
+.featured-tag{font-family:var(--font-mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--blue);margin-bottom:0.8rem}
+.featured-body h2{font-family:var(--font-display);font-size:1.6rem;font-weight:800;letter-spacing:-0.8px;line-height:1.2;margin-bottom:0.8rem;transition:color 0.3s}
+.featured-card:hover .featured-body h2{color:var(--blue)}
+.featured-body .excerpt{font-size:0.95rem;color:var(--gray);line-height:1.7;margin-bottom:1.5rem}
+.featured-meta{font-family:var(--font-mono);font-size:0.72rem;color:var(--gray-light)}
+
+/* BLOG GRID */
+.blog-grid{padding:0 3rem 6rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.blog-card{cursor:pointer;text-decoration:none;color:inherit;transition:transform 0.3s}
+.blog-card:hover{transform:translateY(-4px)}
+.blog-img{width:100%;height:200px;background:var(--gray-bg);border-radius:4px;margin-bottom:1.2rem;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.blog-img-inner{font-family:var(--font-mono);font-size:0.65rem;color:var(--gray-light);letter-spacing:1px;text-transform:uppercase}
+.bi-dark{background:linear-gradient(160deg,#0f172a,#1e293b)}
+.bi-dark .blog-img-inner{color:var(--gray)}
+.blog-card .btag{font-family:var(--font-mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--blue);margin-bottom:0.5rem}
+.blog-card h3{font-family:var(--font-display);font-size:1.1rem;font-weight:700;letter-spacing:-0.3px;line-height:1.3;margin-bottom:0.5rem;transition:color 0.3s}
+.blog-card:hover h3{color:var(--blue)}
+.blog-card .blog-excerpt{font-size:0.88rem;color:var(--gray);line-height:1.6;margin-bottom:0.8rem}
+.blog-card .bmeta{font-family:var(--font-mono);font-size:0.68rem;color:var(--gray-light)}
+
+/* NEWSLETTER */
+.newsletter{background:var(--gray-bg);padding:5rem 3rem}
+.newsletter-inner{max-width:700px;margin:0 auto;text-align:center}
+.newsletter-inner h2{font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:-1px;margin-bottom:0.8rem}
+.newsletter-inner p{font-size:1rem;color:var(--gray);margin-bottom:2rem;line-height:1.6}
+.nl-form{display:flex;gap:0.8rem;max-width:480px;margin:0 auto}
+.nl-form input{flex:1;padding:0.8rem 1rem;border:1px solid var(--gray-border);border-radius:6px;font-family:var(--font-body);font-size:0.95rem;outline:none;transition:border-color 0.3s}
+.nl-form input:focus{border-color:var(--blue)}
+.nl-form button{background:var(--blue);color:var(--white);padding:0.8rem 1.5rem;border:none;border-radius:6px;font-family:var(--font-body);font-weight:600;font-size:0.95rem;cursor:pointer;transition:background 0.2s;white-space:nowrap}
+.nl-form button:hover{background:var(--blue-light)}
+.nl-note{font-size:0.75rem;color:var(--gray-light);margin-top:0.8rem}
+
+/* FOOTER */
+footer{padding:2.5rem 3rem;border-top:1px solid var(--gray-border);background:var(--white)}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.footer-logo{font-family:var(--font-display);font-weight:800;font-size:1.1rem;color:var(--black)}
+.footer-logo span{color:var(--blue)}
+footer p{font-size:0.78rem;color:var(--gray)}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{font-size:0.78rem;color:var(--gray);text-decoration:none;transition:color 0.2s}
+.footer-links a:hover{color:var(--blue)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+
+@media(max-width:900px){
+  .navbar{padding:1.2rem 1.5rem}
+  .page-hero,.filter-bar,.featured,.blog-grid{padding-left:1.5rem;padding-right:1.5rem}
+  .featured-card{grid-template-columns:1fr}
+  .featured-body{padding:2rem}
+  .blog-grid{grid-template-columns:1fr}
+  .nl-form{flex-direction:column}
+  .menu-content{padding:1.5rem}
+  .menu-footer{flex-direction:column;gap:2rem}
+}
+.mockup-badge{position:fixed;bottom:1rem;right:1rem;background:var(--black);color:var(--white);font-family:var(--font-mono);font-size:0.6rem;padding:0.4rem 0.8rem;border-radius:4px;z-index:400;letter-spacing:1px;opacity:0.5}
+</style>
+</head>
+<body>
+
+<div class="mockup-badge">BLOG MOCKUP v1</div>
+
+<!-- NAV -->
+<nav class="navbar" id="navbar">
+  <a href="#" class="logo" id="logo">blendo<span>.</span></a>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span class="line"></span><span class="line"></span><span class="line"></span>
+  </div>
+</nav>
+<div class="menu-overlay" id="menuOverlay">
+  <div class="menu-content">
+    <ul class="menu-links">
+      <li><a href="#" onclick="toggleMenu()"><span class="num">01</span>services</a></li>
+      <li><a href="#" onclick="toggleMenu()"><span class="num">02</span>work</a></li>
+      <li><a href="#" onclick="toggleMenu()"><span class="num">03</span>about</a></li>
+      <li><a href="#" onclick="toggleMenu()"><span class="num">04</span>blog</a></li>
+      <li><a href="#" onclick="toggleMenu()"><span class="num">05</span>let's talk</a></li>
+    </ul>
+    <div class="menu-footer">
+      <div class="menu-footer-col"><h4>Get in touch</h4><a href="#"><span class="__cf_email__" data-cfemail="620a070e0e0d22000e070c060d0305070c011b4c010d0f">[email&#160;protected]</span></a><a href="#">+31 (0) 20 123 4567</a></div>
+      <div class="menu-footer-col"><h4>Follow along</h4><a href="#">LinkedIn</a><a href="#">Instagram</a></div>
+      <div class="menu-footer-col"><h4>Visit</h4><p>Amsterdam, Netherlands</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="section-label reveal">Blog</div>
+  <h1 class="reveal">Thoughts on performance marketing that don't waste your time.</h1>
+  <p class="reveal reveal-delay-1">Practical tips, honest takes, and things we've learned managing millions in ad spend.</p>
+</div>
+
+<!-- FILTERS -->
+<div class="filter-bar reveal">
+  <span class="filter-tag active">All</span>
+  <span class="filter-tag">Google Ads</span>
+  <span class="filter-tag">Paid Social</span>
+  <span class="filter-tag">Analytics</span>
+  <span class="filter-tag">Strategy</span>
+  <span class="filter-tag">Startup Growth</span>
+</div>
+
+<!-- FEATURED -->
+<div class="featured reveal">
+  <a class="featured-card" href="#">
+    <div class="featured-img"><span class="fi-label">Featured image</span></div>
+    <div class="featured-body">
+      <div class="featured-tag">Google Ads</div>
+      <h2>Most startups waste 40% of their Google Ads budget. Here's where it's leaking.</h2>
+      <p class="excerpt">We've audited dozens of startup ad accounts. The same mistakes keep showing up — and they're fixable in a week. Here are the five biggest budget leaks and how to plug them.</p>
+      <div class="featured-meta">8 min read &middot; March 2026</div>
+    </div>
+  </a>
+</div>
+
+<!-- BLOG GRID -->
+<div class="blog-grid">
+
+  <a class="blog-card reveal" href="#">
+    <div class="blog-img bi-dark"><div class="blog-img-inner">Image</div></div>
+    <div class="btag">Paid Social</div>
+    <h3>TikTok Ads for B2B: crazy or genius?</h3>
+    <p class="blog-excerpt">Everyone says TikTok is for Gen-Z DTC brands. We tested it for a B2B SaaS client. The results surprised us.</p>
+    <div class="bmeta">5 min read &middot; Feb 2026</div>
+  </a>
+
+  <a class="blog-card reveal reveal-delay-1" href="#">
+    <div class="blog-img"><div class="blog-img-inner">Image</div></div>
+    <div class="btag">Analytics</div>
+    <h3>Your GA4 setup is probably broken. Here's how to check.</h3>
+    <p class="blog-excerpt">A quick 10-minute audit to make sure you're actually tracking what matters — and not missing conversions.</p>
+    <div class="bmeta">6 min read &middot; Feb 2026</div>
+  </a>
+
+  <a class="blog-card reveal reveal-delay-2" href="#">
+    <div class="blog-img bi-dark"><div class="blog-img-inner">Image</div></div>
+    <div class="btag">Strategy</div>
+    <h3>When to hire an agency vs. build in-house (an honest take).</h3>
+    <p class="blog-excerpt">We're an agency, so you'd expect us to say "hire us." But sometimes in-house makes more sense. Here's how to decide.</p>
+    <div class="bmeta">7 min read &middot; Jan 2026</div>
+  </a>
+
+  <a class="blog-card reveal" href="#">
+    <div class="blog-img"><div class="blog-img-inner">Image</div></div>
+    <div class="btag">Google Ads</div>
+    <h3>The one Google Ads metric most startups ignore (that matters most).</h3>
+    <p class="blog-excerpt">Hint: it's not CTR, it's not impressions, and it's definitely not Quality Score. Here's what you should actually watch.</p>
+    <div class="bmeta">4 min read &middot; Jan 2026</div>
+  </a>
+
+  <a class="blog-card reveal reveal-delay-1" href="#">
+    <div class="blog-img bi-dark"><div class="blog-img-inner">Image</div></div>
+    <div class="btag">Startup Growth</div>
+    <h3>How to spend your first &euro;5K on paid marketing (without wasting it).</h3>
+    <p class="blog-excerpt">A step-by-step budget allocation guide for startups running their first paid campaigns.</p>
+    <div class="bmeta">6 min read &middot; Dec 2025</div>
+  </a>
+
+  <a class="blog-card reveal reveal-delay-2" href="#">
+    <div class="blog-img"><div class="blog-img-inner">Image</div></div>
+    <div class="btag">Paid Social</div>
+    <h3>Creative testing on Meta: the framework we use for every client.</h3>
+    <p class="blog-excerpt">How we test 10+ ad variants per month without burning through budget. The system, step by step.</p>
+    <div class="bmeta">8 min read &middot; Dec 2025</div>
+  </a>
+
+</div>
+
+<!-- NEWSLETTER -->
+<div class="newsletter">
+  <div class="newsletter-inner reveal">
+    <h2>Get smarter about your ad spend.</h2>
+    <p>One email per month. Practical tips, no fluff. Unsubscribe anytime.</p>
+    <div class="nl-form">
+      <input type="email" placeholder="you@company.com">
+      <button>Subscribe</button>
+    </div>
+    <div class="nl-note">We respect your inbox. No spam, ever.</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">blendo<span>.</span></div>
+    <div class="footer-links"><a href="#">services</a><a href="#">work</a><a href="#">about</a><a href="#">contact</a></div>
+    <p>&copy; 2026 Blendo Agency. Amsterdam.</p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function toggleMenu(){const o=document.getElementById('menuOverlay'),h=document.getElementById('hamburger'),l=document.getElementById('logo');o.classList.toggle('open');h.classList.toggle('open');l.classList.toggle('menu-open');document.body.style.overflow=o.classList.contains('open')?'hidden':''}
+window.addEventListener('scroll',()=>{const n=document.getElementById('navbar');if(!document.getElementById('menuOverlay').classList.contains('open'))n.classList.toggle('scrolled',window.scrollY>80)});
+const ro=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){en.target.classList.add('visible');ro.unobserve(en.target)}})},{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+document.querySelecto
